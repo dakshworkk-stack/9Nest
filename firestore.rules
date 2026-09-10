@@ -1,0 +1,78 @@
+// ===============================================================
+// Assumed Data Model
+// ===============================================================
+//
+// Collection: bookings
+// Document ID: auto-generated
+// Fields:
+//   - companyName: string (required) - Name of the company
+//   - name: string (required) - Contact name
+//   - number: string (optional) - Contact number
+//   - email: string (required) - Contact email
+//   - designation: string (optional) - Job title
+//   - dataType: string (required) - Type of data
+//   - sampleDataSheetUrl: string (optional) - URL to sample file
+//   - createdAt: timestamp (required) - Creation time
+//
+// ===============================================================
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && 
+             (request.auth.token.email == "dakshworkk@gmail.com" && request.auth.token.email_verified == true);
+    }
+
+    function isValidEmail(email) {
+      return email is string && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+
+    function isValidUrl(url) {
+      return url is string && (url.matches("^https://.*") || url.matches("^http://.*"));
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+
+    function isValidBooking(data) {
+      return data.keys().hasAll(['companyName', 'name', 'email', 'dataType', 'createdAt']) &&
+             data.companyName is string && data.companyName.size() > 0 && data.companyName.size() < 200 &&
+             data.name is string && data.name.size() > 0 && data.name.size() < 200 &&
+             isValidEmail(data.email) &&
+             data.dataType is string && data.dataType.size() > 0 && data.dataType.size() < 500 &&
+             data.createdAt is timestamp &&
+             (!('number' in data) || (data.number is string && data.number.size() < 50)) &&
+             (!('designation' in data) || (data.designation is string && data.designation.size() < 200)) &&
+             (!('sampleDataSheetUrl' in data) || (data.sampleDataSheetUrl == "" || isValidUrl(data.sampleDataSheetUrl))) &&
+             data.keys().hasOnly(['companyName', 'name', 'email', 'dataType', 'createdAt', 'number', 'designation', 'sampleDataSheetUrl']);
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /bookings/{bookingId} {
+      // Allow anyone to submit a booking if it follows schema
+      allow create: if isValidBooking(request.resource.data);
+      
+      // Only Daksh (the admin) can read or manage bookings
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

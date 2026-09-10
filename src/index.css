@@ -1,0 +1,222 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+    --font-heading: var(--font-sans);
+    
+    --color-ring: var(--ring);
+    --color-input: var(--input);
+    --color-border: var(--border);
+    --color-destructive: var(--destructive);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-accent: var(--accent);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-muted: var(--muted);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary: var(--secondary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-primary: var(--primary);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-popover: var(--popover);
+    --color-card-foreground: var(--card-foreground);
+    --color-card: var(--card);
+    --color-foreground: var(--foreground);
+    --color-background: var(--background);
+    
+    --radius-sm: 0.5rem;
+    --radius-md: 0.75rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+}
+
+:root {
+    --background: #FAFBFC;
+    --foreground: #0F172A;
+    --card: #FFFFFF;
+    --card-foreground: #0F172A;
+    --popover: #FFFFFF;
+    --popover-foreground: #0F172A;
+    --primary: #4F46E5;
+    --primary-foreground: #FFFFFF;
+    --secondary: #F4F6FA;
+    --secondary-foreground: #0F172A;
+    --muted: #F4F6FA;
+    --muted-foreground: #475569;
+    --accent: #0284C7;
+    --accent-foreground: #FFFFFF;
+    --destructive: #DC2626;
+    --border: #E8EEF5;
+    --input: #E8EEF5;
+    --ring: #4F46E5;
+}
+
+.dark {
+    --background: #030305;
+    --foreground: #F8FAFC;
+    --card: #08080C;
+    --card-foreground: #F8FAFC;
+    --popover: #08080C;
+    --popover-foreground: #F8FAFC;
+    --primary: #6366F1;
+    --primary-foreground: #FFFFFF;
+    --secondary: #0D111D;
+    --secondary-foreground: #F8FAFC;
+    --muted: #0D111D;
+    --muted-foreground: #94A3B8;
+    --accent: #06B6D4;
+    --accent-foreground: #FFFFFF;
+    --destructive: #7F1D1D;
+    --border: rgba(255, 255, 255, 0.08);
+    --input: rgba(255, 255, 255, 0.08);
+    --ring: #6366F1;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased selection:bg-primary selection:text-white transition-colors duration-200;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+@utility glass {
+  @apply bg-white/85 dark:bg-white/[0.03] backdrop-blur-xl border border-slate-200/80 dark:border-white/[0.08] shadow-lg shadow-slate-200/40 dark:shadow-2xl dark:shadow-black/60;
+}
+
+@utility glass-card {
+  @apply bg-white/90 dark:bg-white/[0.02] backdrop-blur-xl border border-slate-200/90 dark:border-white/[0.07] hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 shadow-sm shadow-slate-200/40 dark:shadow-xl dark:shadow-black/40;
+}
+
+@utility glass-card-interactive {
+  @apply bg-white dark:bg-gradient-to-b dark:from-white/[0.04] dark:to-white/[0.01] backdrop-blur-2xl border border-slate-200 dark:border-white/[0.08] hover:border-primary/50 transition-all duration-300 shadow-sm hover:shadow-md;
+}
+
+@utility text-gradient {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-slate-900 via-slate-800 to-slate-600 dark:from-white dark:via-slate-100 dark:to-slate-400;
+}
+
+@utility accent-gradient {
+  @apply bg-gradient-to-r from-indigo-600 via-primary to-cyan-600 dark:from-indigo-400 dark:via-primary dark:to-cyan-400;
+}
+
+@utility hero-canvas {
+  background-color: var(--background);
+  background-image: 
+    radial-gradient(100% 70% at 50% 0%, rgba(99, 102, 241, 0.07) 0%, rgba(6, 182, 212, 0.025) 45%, transparent 80%),
+    linear-gradient(180deg, #FFFFFF 0%, #FAFBFC 100%);
+}
+
+.dark .hero-canvas {
+  background-color: #030305;
+  background-image: 
+    radial-gradient(100% 70% at 50% 0%, rgba(99, 102, 241, 0.16) 0%, rgba(6, 182, 212, 0.06) 45%, transparent 85%),
+    linear-gradient(180deg, #05070E 0%, #030305 100%);
+}
+
+@utility blueprint-grid {
+  background-size: 54px 54px;
+  background-image: 
+    linear-gradient(to right, rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+}
+
+.dark .blueprint-grid {
+  background-size: 54px 54px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+}
+
+@utility mesh-gradient {
+  background-image: 
+    radial-gradient(circle at 15% 15%, rgba(79, 70, 229, 0.06) 0px, transparent 45%),
+    radial-gradient(circle at 85% 20%, rgba(6, 182, 212, 0.04) 0px, transparent 40%),
+    radial-gradient(circle at 50% 80%, rgba(99, 102, 241, 0.03) 0px, transparent 50%);
+}
+
+.dark .mesh-gradient {
+  background-image: 
+    radial-gradient(circle at 15% 15%, rgba(79, 70, 229, 0.16) 0px, transparent 45%),
+    radial-gradient(circle at 85% 20%, rgba(6, 182, 212, 0.1) 0px, transparent 40%),
+    radial-gradient(circle at 50% 80%, rgba(99, 102, 241, 0.06) 0px, transparent 50%);
+}
+
+@utility grid-pattern {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(15, 23, 42, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.03) 1px, transparent 1px);
+}
+
+.dark .grid-pattern {
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+}
+
+@utility dot-pattern {
+  background-size: 24px 24px;
+  background-image: radial-gradient(rgba(15, 23, 42, 0.08) 1px, transparent 1px);
+}
+
+.dark .dot-pattern {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+}
+
+@utility headline {
+  @apply text-[clamp(2.75rem,8vw,6.5rem)] font-black leading-[0.92] tracking-[-0.04em] uppercase text-slate-900 dark:text-white;
+}
+
+@utility sub-headline {
+  @apply text-base md:text-xl text-slate-600 dark:text-slate-300 leading-relaxed font-normal max-w-2xl;
+}
+
+@utility stat-value {
+  @apply font-mono text-3xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white;
+}
+
+@utility stat-label {
+  @apply text-[10px] font-mono uppercase tracking-[0.25em] text-slate-500 dark:text-slate-400;
+}
+
+@utility badge-outline {
+  @apply inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-slate-200 dark:border-white/10 text-[11px] font-mono uppercase tracking-widest text-slate-700 dark:text-slate-300 bg-white/80 dark:bg-white/[0.03] backdrop-blur-md shadow-sm;
+}
+
+@utility btn-primary {
+  @apply inline-flex items-center justify-center gap-2.5 rounded-full font-bold text-xs uppercase tracking-wider transition-all duration-200 cursor-pointer
+    bg-gradient-to-r from-indigo-600 via-indigo-500 to-indigo-600 text-white
+    shadow-md shadow-indigo-500/20 hover:shadow-lg hover:shadow-indigo-500/30
+    border-t border-white/30 border border-indigo-400/30 hover:scale-[1.02] active:scale-[0.98]
+    dark:from-primary dark:via-indigo-500 dark:to-primary dark:shadow-primary/25 dark:border-white/15;
+}
+
+@utility btn-secondary {
+  @apply inline-flex items-center justify-center gap-2 rounded-full font-semibold text-xs transition-all duration-200 cursor-pointer
+    bg-white hover:bg-slate-50 text-slate-800 hover:text-slate-950 border border-slate-200 hover:border-primary/40 shadow-sm
+    dark:bg-white/[0.04] dark:hover:bg-white/[0.08] dark:text-slate-200 dark:hover:text-white dark:border-white/10;
+}
+
+/* Custom Accordion Styles */
+[data-state="open"] .accordion-trigger-icon {
+  @apply rotate-180 text-primary;
+}
+
+.accordion-item {
+  @apply border-b border-white/5 last:border-0;
+}
+
+.accordion-trigger {
+  @apply py-6 hover:no-underline text-left transition-all;
+}
+
+.accordion-content {
+  @apply text-slate-400 leading-relaxed pb-6;
+}

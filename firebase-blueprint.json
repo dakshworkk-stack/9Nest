@@ -1,0 +1,53 @@
+{
+  "entities": {
+    "Booking": {
+      "title": "Booking",
+      "description": "Information collected from potential clients booking a strategy session.",
+      "type": "object",
+      "properties": {
+        "companyName": {
+          "type": "string",
+          "description": "Name of the potential client's company."
+        },
+        "name": {
+          "type": "string",
+          "description": "Full name of the contact person."
+        },
+        "number": {
+          "type": "string",
+          "description": "Contact phone number."
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Contact email address."
+        },
+        "designation": {
+          "type": "string",
+          "description": "Job title or designation of the contact person."
+        },
+        "dataType": {
+          "type": "string",
+          "description": "The type of data they need help with."
+        },
+        "sampleDataSheetUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to the sample data sheet uploaded to storage."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the booking was submitted."
+        }
+      },
+      "required": ["companyName", "name", "email", "dataType", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/bookings/{bookingId}": {
+      "schema": "Booking",
+      "description": "Collection of strategy session bookings."
+    }
+  }
+}
